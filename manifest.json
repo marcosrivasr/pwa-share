@@ -14,21 +14,14 @@
     }
   ],
   "share_target": {
-    "action": "/share",
-    "method": "POST",
+    "action": "/_share-target",
     "enctype": "multipart/form-data",
+    "method": "POST",
     "params": {
-      "title": "name",
-      "text": "description",
-      "url": "link",
       "files": [
         {
-          "name": "records",
-          "accept": ["text/csv", ".csv"]
-        },
-        {
-          "name": "graphs",
-          "accept": "image/svg+xml"
+          "name": "media",
+          "accept": ["audio/*", "image/*", "video/*"]
         }
       ]
     }
