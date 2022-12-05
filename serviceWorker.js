@@ -33,12 +33,38 @@ self.addEventListener("fetch", (fetchEvent) => {
   ) {
     fetchEvent.respondWith(
       (async () => {
-        const formData = await fetchEvent.request.formData();
-        console.log(formData.keys);
-        const link = formData.get("link") || "";
-        //const responseUrl = await saveBookmark(link);
-        //return Response.redirect(responseUrl, 303);
-        return fetch(fetchEvent.request);
+        const formData = await event.request.formData();
+        const mediaFiles = formData.getAll("media");
+        for (const mediaFile of mediaFiles) {
+          // TODO: Instead of bailing, come up with a
+          // default name for each possible MIME type.
+          if (!mediaFile.name) {
+            console.log("no name found");
+            /*  if (broadcastChannel) {
+              broadcastChannel.postMessage(
+                "Sorry! No name found on incoming media."
+              );
+            } */
+            continue;
+          }
+
+          console.log(mediaFile.name);
+
+          const cacheKey = new URL(
+            `${urlPrefix}${Date.now()}-${mediaFile.name}`,
+            self.location
+          ).href;
+          await cache.put(
+            cacheKey,
+            new Response(mediaFile, {
+              headers: {
+                "content-length": mediaFile.size,
+                "content-type": mediaFile.type,
+              },
+            })
+          );
+        }
+        return Response.redirect("/", 200);
       })()
     );
   }
