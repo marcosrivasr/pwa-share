@@ -34,7 +34,7 @@ self.addEventListener("fetch", (fetchEvent) => {
     fetchEvent.respondWith(
       (async () => {
         const formData = await fetchEvent.request.formData();
-        console.log(formData).keys;
+        console.log(formData.keys);
         const link = formData.get("link") || "";
         //const responseUrl = await saveBookmark(link);
         //return Response.redirect(responseUrl, 303);
@@ -49,7 +49,7 @@ self.addEventListener("fetch", (fetchEvent) => {
   ); */
 });
 
-self.addEventListener("fetch", (event) => {
+/* self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   // If this is an incoming POST request for the
   // registered "action" URL, respond to it.
@@ -64,3 +64,4 @@ self.addEventListener("fetch", (event) => {
     );
   }
 });
+ */
