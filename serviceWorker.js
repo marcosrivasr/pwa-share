@@ -34,19 +34,19 @@ self.addEventListener("fetch", (fetchEvent) => {
     fetchEvent.respondWith(
       (async () => {
         const formData = await fetchEvent.request.formData();
-        console.log(formData);
+        console.log(formData).keys;
         const link = formData.get("link") || "";
         //const responseUrl = await saveBookmark(link);
         //return Response.redirect(responseUrl, 303);
-        return Response.redirect("/", 303);
+        return fetch(fetchEvent.request);
       })()
     );
   }
-  fetchEvent.respondWith(
+  /*  fetchEvent.respondWith(
     caches.match(fetchEvent.request).then((res) => {
       return res || fetch(fetchEvent.request);
     })
-  );
+  ); */
 });
 
 self.addEventListener("fetch", (event) => {
