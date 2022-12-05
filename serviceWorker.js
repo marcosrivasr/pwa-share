@@ -33,7 +33,7 @@ self.addEventListener("fetch", (fetchEvent) => {
   ) {
     fetchEvent.respondWith(
       (async () => {
-        const formData = await event.request.formData();
+        const formData = await fetchEvent.request.formData();
         const mediaFiles = formData.getAll("media");
         for (const mediaFile of mediaFiles) {
           // TODO: Instead of bailing, come up with a
