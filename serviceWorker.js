@@ -27,10 +27,14 @@ self.addEventListener("fetch", (fetchEvent) => {
   const url = new URL(fetchEvent.request.url);
   // If this is an incoming POST request for the
   // registered "action" URL, respond to it.
-  if (fetchEvent.request.method === "POST" && url.pathname === "/share") {
+  if (
+    fetchEvent.request.method === "POST" &&
+    url.pathname === "/share-target"
+  ) {
     fetchEvent.respondWith(
       (async () => {
         const formData = await fetchEvent.request.formData();
+        console.log(formData);
         const link = formData.get("link") || "";
         //const responseUrl = await saveBookmark(link);
         //return Response.redirect(responseUrl, 303);
