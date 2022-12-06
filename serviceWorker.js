@@ -56,7 +56,7 @@ self.addEventListener("fetch", (fetchEvent) => {
             self.location
           ).href;
 
-          postMessage(cacheKey);
+          self.postMessage(cacheKey);
           /* await cache.put(
             cacheKey,
             new Response(mediaFile, {
