@@ -24,6 +24,7 @@ self.addEventListener("install", (installEvent) => {
 });
 
 self.addEventListener("fetch", (fetchEvent) => {
+  const urlPrefix = "/_media/";
   const url = new URL(fetchEvent.request.url);
   // If this is an incoming POST request for the
   // registered "action" URL, respond to it.
@@ -54,7 +55,9 @@ self.addEventListener("fetch", (fetchEvent) => {
             `${urlPrefix}${Date.now()}-${mediaFile.name}`,
             self.location
           ).href;
-          await cache.put(
+
+          postMessage(cacheKey);
+          /* await cache.put(
             cacheKey,
             new Response(mediaFile, {
               headers: {
@@ -62,7 +65,7 @@ self.addEventListener("fetch", (fetchEvent) => {
                 "content-type": mediaFile.type,
               },
             })
-          );
+          ); */
         }
         return Response.redirect("/", 200);
       })()
@@ -74,20 +77,3 @@ self.addEventListener("fetch", (fetchEvent) => {
     })
   ); */
 });
-
-/* self.addEventListener("fetch", (event) => {
-  const url = new URL(event.request.url);
-  // If this is an incoming POST request for the
-  // registered "action" URL, respond to it.
-  if (event.request.method === "POST" && url.pathname === "/share") {
-    event.respondWith(
-      (async () => {
-        const formData = await event.request.formData();
-        const link = formData.get("link") || "";
-        const responseUrl = await saveBookmark(link);
-        return Response.redirect(responseUrl, 303);
-      })()
-    );
-  }
-});
- */
