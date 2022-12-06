@@ -9,6 +9,12 @@ if ("serviceWorker" in navigator) {
 }
 
 myWorker.onmessage = (e) => {
-  result.textContent = e.data;
+  boton.textContent = e.data;
   console.log("Message received from worker");
 };
+
+const boton = document.querySelector("#boton");
+boton.addEventListener("click", (e) => {
+  console.log("hola");
+  myWorker.postMessage("hello there");
+});

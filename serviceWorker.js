@@ -41,11 +41,6 @@ self.addEventListener("fetch", (fetchEvent) => {
           // default name for each possible MIME type.
           if (!mediaFile.name) {
             console.log("no name found");
-            /*  if (broadcastChannel) {
-              broadcastChannel.postMessage(
-                "Sorry! No name found on incoming media."
-              );
-            } */
             continue;
           }
 
@@ -66,8 +61,13 @@ self.addEventListener("fetch", (fetchEvent) => {
               },
             })
           ); */
+          return new Response(mediaFile, {
+            headers: {
+              "content-length": mediaFile.size,
+              "content-type": mediaFile.type,
+            },
+          });
         }
-        return Response.redirect("/", 200);
       })()
     );
   }
@@ -76,4 +76,10 @@ self.addEventListener("fetch", (fetchEvent) => {
       return res || fetch(fetchEvent.request);
     })
   ); */
+});
+
+self.addEventListener("message", (ev) => {
+  console.log("mensaje recibido", ev);
+
+  self.postMessage("Hola de vuelta");
 });
