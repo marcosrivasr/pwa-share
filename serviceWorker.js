@@ -52,6 +52,15 @@ self.addEventListener("fetch", (fetchEvent) => {
           ).href;
 
           self.postMessage(cacheKey);
+          (await caches.open(staticDevCoffee)).put(
+            cacheKey,
+            new Response(mediaFile, {
+              headers: {
+                "content-length": mediaFile.size,
+                "content-type": mediaFile.type,
+              },
+            })
+          );
           /* await cache.put(
             cacheKey,
             new Response(mediaFile, {
@@ -61,13 +70,10 @@ self.addEventListener("fetch", (fetchEvent) => {
               },
             })
           ); */
-          return new Response(mediaFile, {
-            headers: {
-              "content-length": mediaFile.size,
-              "content-type": mediaFile.type,
-            },
-          });
         }
+        caches.match(fetchEvent.request).then((res) => {
+          return res || fetch(fetchEvent.request);
+        });
       })()
     );
   }
