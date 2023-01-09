@@ -39,5 +39,8 @@ async function _getCachedMediaMetadata() {
 
 window.onload = async function () {
   const data = await _getCachedMediaMetadata();
-  console.log(data);
+  if (data && data.length > 0) {
+    const images = data.map((img) => `<img src="${img.src}" />`);
+    document.querySelector("#container").innerHTML = images;
+  }
 };
