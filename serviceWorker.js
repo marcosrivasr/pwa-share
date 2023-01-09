@@ -1,4 +1,6 @@
 const staticDevCoffee = "dev-coffee-site-v1";
+const broadcastChannel =
+  "BroadcastChannel" in self ? new BroadcastChannel("shareMessages") : null;
 const assets = [
   "/",
   "/index.html",
@@ -24,7 +26,6 @@ self.addEventListener("install", (installEvent) => {
 });
 
 self.addEventListener("fetch", (fetchEvent) => {
-  const sw = self;
   const urlPrefix = "/_media/";
   const url = new URL(fetchEvent.request.url);
   // If this is an incoming POST request for the
@@ -45,7 +46,9 @@ self.addEventListener("fetch", (fetchEvent) => {
             continue;
           }
 
-          console.log(mediaFile);
+          if (broadcastChannel) {
+            broadcastChannel.postMessage("New media added.");
+          }
 
           const cacheKey = new URL(
             `${urlPrefix}${Date.now()}-${mediaFile.name}`,
