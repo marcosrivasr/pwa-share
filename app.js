@@ -18,3 +18,26 @@ boton.addEventListener("click", (e) => {
   console.log("hola");
   myWorker.postMessage("hello there");
 });
+
+async function _getCachedMediaMetadata() {
+  const cache = await caches.open("dev-coffee-site-v1");
+  const requests = await cache.keys();
+  return Promise.all(
+    requests.reverse().map(async (request) => {
+      const response = await cache.match(request);
+      const responseBlob = await response.blob();
+      const size = responseBlob.size;
+
+      return {
+        size,
+        contentType: response.headers.get("content-type"),
+        src: request.url,
+      };
+    })
+  );
+}
+
+window.onload = async function () {
+  const data = await _getCachedMediaMetadata();
+  console.log(data);
+};
