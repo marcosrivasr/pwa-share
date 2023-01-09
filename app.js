@@ -40,7 +40,9 @@ async function _getCachedMediaMetadata() {
 window.onload = async function () {
   const data = await _getCachedMediaMetadata();
   if (data && data.length > 0) {
-    const images = data.map((img) => `<img src="${img.src}" />`);
-    document.querySelector("#container").innerHTML = images;
+    const images = data
+      .filter((item) => item.contentType.startsWith("image"))
+      .data.map((img) => `<img src="${img.src}" />`);
+    document.querySelector("#container").innerHTML = images.join("");
   }
 };
