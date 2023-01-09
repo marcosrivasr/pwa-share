@@ -24,6 +24,7 @@ self.addEventListener("install", (installEvent) => {
 });
 
 self.addEventListener("fetch", (fetchEvent) => {
+  const sw = self;
   const urlPrefix = "/_media/";
   const url = new URL(fetchEvent.request.url);
   // If this is an incoming POST request for the
@@ -44,14 +45,14 @@ self.addEventListener("fetch", (fetchEvent) => {
             continue;
           }
 
-          console.log(mediaFile.name);
+          console.log(mediaFile);
 
           const cacheKey = new URL(
             `${urlPrefix}${Date.now()}-${mediaFile.name}`,
             self.location
           ).href;
 
-          //self.postMessage(cacheKey);
+          sw.postMessage(cacheKey);
           (await caches.open(staticDevCoffee)).put(
             cacheKey,
             new Response(mediaFile, {
@@ -61,15 +62,6 @@ self.addEventListener("fetch", (fetchEvent) => {
               },
             })
           );
-          /* await cache.put(
-            cacheKey,
-            new Response(mediaFile, {
-              headers: {
-                "content-length": mediaFile.size,
-                "content-type": mediaFile.type,
-              },
-            })
-          ); */
         }
         caches.match(fetchEvent.request).then((res) => {
           return res || fetch(fetchEvent.request);
