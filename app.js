@@ -28,6 +28,8 @@ async function _getCachedMediaMetadata() {
       const responseBlob = await response.blob();
       const size = responseBlob.size;
 
+      console.log("request", request);
+
       return {
         size,
         contentType: response.headers.get("content-type"),
