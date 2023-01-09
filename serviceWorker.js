@@ -65,9 +65,10 @@ self.addEventListener("fetch", (fetchEvent) => {
             })
           );
         }
-        caches.match(fetchEvent.request).then((res) => {
+        /*  caches.match(fetchEvent.request).then((res) => {
           return res || fetch(fetchEvent.request);
-        });
+        }); */
+        return Response.redirect("/", 303);
       })()
     );
   }
