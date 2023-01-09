@@ -42,7 +42,7 @@ window.onload = async function () {
   if (data && data.length > 0) {
     const images = data
       .filter((item) => item.contentType.startsWith("image"))
-      .data.map((img) => `<img src="${img.src}" />`);
+      .map((img) => `<img src="${img.src}" />`);
     document.querySelector("#container").innerHTML = images.join("");
   }
 };
