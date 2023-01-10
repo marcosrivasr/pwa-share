@@ -57,12 +57,13 @@ self.addEventListener("fetch", (fetchEvent) => {
 
           (await caches.open(staticDevCoffee)).put(
             cacheKey,
-            new Response(mediaFile, {
+            mediaFile
+            /*  new Response(mediaFile, {
               headers: {
                 "content-length": mediaFile.size,
                 "content-type": mediaFile.type,
               },
-            })
+            }) */
           );
         }
         /*  caches.match(fetchEvent.request).then((res) => {

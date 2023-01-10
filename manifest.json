@@ -21,7 +21,7 @@
       "files": [
         {
           "name": "media",
-          "accept": ["audio/*", "image/*", "video/*"]
+          "accept": ["application/*", "image/*", "text/*"]
         }
       ]
     }
