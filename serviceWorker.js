@@ -1,4 +1,4 @@
-const staticDevCoffee = "dev-coffee-site-v1";
+const staticDevCoffee = "media";
 const broadcastChannel =
   "BroadcastChannel" in self ? new BroadcastChannel("shareMessages") : null;
 const assets = [

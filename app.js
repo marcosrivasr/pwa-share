@@ -20,7 +20,7 @@ boton.addEventListener("click", (e) => {
 });
 
 async function _getCachedMediaMetadata() {
-  const cache = await caches.open("dev-coffee-site-v1");
+  const cache = await caches.open("media");
   const requests = await cache.keys();
   return Promise.all(
     requests.reverse().map(async (request) => {
