@@ -39,7 +39,7 @@ async function _getCachedMediaMetadata() {
   );
 }
 
-window.onload = async function () {
+async function loadImages() {
   const data = await _getCachedMediaMetadata();
   if (data && data.length > 0) {
     const images = data
@@ -47,4 +47,6 @@ window.onload = async function () {
       .map((img) => `<img src="${img.src}" />`);
     document.querySelector("#container").innerHTML = images.join("");
   }
-};
+}
+
+loadImages();
