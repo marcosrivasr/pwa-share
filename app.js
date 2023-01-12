@@ -40,13 +40,20 @@ async function _getCachedMediaMetadata() {
   );
 }
 
+document.addEventListener("DOMContentLoaded", (e) => {
+  loadImages();
+});
+
 async function loadImages() {
   const data = await _getCachedMediaMetadata();
   if (data && data.length > 0) {
-    const images = data
-      .filter((item) => item.contentType.startsWith("image"))
-      .map((img) => `<img src="${img.src}" />`);
-    document.querySelector("#container").innerHTML = images.join("");
+    const images = data.filter((item) => item.contentType.startsWith("image"));
+
+    images.forEach((image) => {
+      const img = document.createElement("img");
+      img.src = image.src;
+      document.querySelector("#container").appendChild(img);
+    });
   }
 }
 
