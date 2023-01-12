@@ -24,6 +24,7 @@ async function _getCachedMediaMetadata() {
   const requests = await cache.keys();
   return Promise.all(
     requests.reverse().map(async (request) => {
+      console.log(request);
       const response = await cache.match(request);
       const responseBlob = await response.blob();
       const size = responseBlob.size;
