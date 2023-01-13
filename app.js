@@ -44,7 +44,7 @@ async function _getCachedMediaMetadata() {
 
 // This method syncs the currently cached media with the Content Indexing API
 // (on browsers that support it). The Cache Storage is the source of truth.
-export async function syncContentIndex(registration) {
+async function syncContentIndex(registration) {
   //  Bail early if the Content Indexing API isn't supported.
   if (!("index" in registration)) {
     return;
