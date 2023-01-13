@@ -1,8 +1,8 @@
 const myWorker = new Worker("serviceWorker.js");
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.addEventListener("controllerchange", () => {
+  /* navigator.serviceWorker.addEventListener("controllerchange", () => {
     window.location.reload();
-  });
+  }); */
   window.addEventListener("load", async function () {
     const registration = await navigator.serviceWorker.register(
       "serviceWorker.js"
