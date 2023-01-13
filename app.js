@@ -7,11 +7,11 @@ if ("serviceWorker" in navigator) {
     const registration = await navigator.serviceWorker.register(
       "serviceWorker.js"
     );
-    document.addEventListener("visibilitychange", () => {
+    /* document.addEventListener("visibilitychange", () => {
       if (document.visibilityState === "visible") {
         registration.update();
       }
-    });
+    }); */
 
     await syncContentIndex(registration);
     /*     navigator.serviceWorker
