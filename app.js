@@ -56,7 +56,7 @@ async function syncContentIndex(registration) {
   const idsInIndex = new Set(allEntries.map((entry) => entry.id));
 
   // Get a list of all cached media.
-  const cachedMediaMetadata = await cachedMediaMetadataPromise;
+  const cachedMediaMetadata = await _getCachedMediaMetadata;
 
   for (const metadata of cachedMediaMetadata) {
     if (idsInIndex.has(metadata.src)) {
