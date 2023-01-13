@@ -1,3 +1,4 @@
+//@ts-check
 const myWorker = new Worker("serviceWorker.js");
 if ("serviceWorker" in navigator) {
   /* navigator.serviceWorker.addEventListener("controllerchange", () => {
@@ -25,17 +26,17 @@ async function _getCachedMediaMetadata() {
   const cache = await caches.open("media");
   const requests = await cache.keys();
   return Promise.all(
-    requests.reverse().map(async (request) => {
+    requests.map(async (request) => {
       console.log(request);
       const response = await cache.match(request);
-      const responseBlob = await response.blob();
-      const size = responseBlob.size;
+      const responseBlob = await response?.blob();
+      const size = responseBlob?.size;
 
       console.log("request", request);
 
       return {
         size,
-        contentType: response.headers.get("content-type"),
+        contentType: response?.headers.get("content-type"),
         src: request.url,
       };
     })
@@ -56,11 +57,12 @@ async function syncContentIndex(registration) {
   const idsInIndex = new Set(allEntries.map((entry) => entry.id));
 
   // Get a list of all cached media.
-  const cachedMediaMetadata = await _getCachedMediaMetadata().filter((item) =>
-    item.contentType.startsWith("image")
+  const cachedMediaMetadata = await _getCachedMediaMetadata();
+  const filteredCacheMediaMetadata = cachedMediaMetadata.filter((item) =>
+    item.contentType?.startsWith("image")
   );
 
-  for (const metadata of cachedMediaMetadata) {
+  for (const metadata of filteredCacheMediaMetadata) {
     if (idsInIndex.has(metadata.src)) {
       // If a given id/URL is in both the content index and currently in our
       // cache, remove it from the set.
@@ -116,7 +118,7 @@ async function loadImages() {
     images.forEach((image) => {
       const img = document.createElement("img");
       img.src = image.src;
-      document.querySelector("#container").appendChild(img);
+      document.querySelector("#container")?.appendChild(img);
     });
   }
 }
