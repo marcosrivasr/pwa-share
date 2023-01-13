@@ -78,7 +78,7 @@ async function syncContentIndex(registration) {
         // Our web app has a route for viewing a specific cached media URL.
         // Note that this needs to be the URL for a page that will display the
         // cached media; *not* the URL for the media itself.
-        launchUrl: `/#/view/${metadata.src}`,
+        launchUrl: `/`,
         // Use a generic title and description.
         title: `A saved ${category}`,
         description: "Saved via the Scrapbook PWA.",
