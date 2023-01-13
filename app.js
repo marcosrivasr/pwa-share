@@ -56,7 +56,9 @@ async function syncContentIndex(registration) {
   const idsInIndex = new Set(allEntries.map((entry) => entry.id));
 
   // Get a list of all cached media.
-  const cachedMediaMetadata = await _getCachedMediaMetadata();
+  const cachedMediaMetadata = await _getCachedMediaMetadata().filter((item) =>
+    item.contentType.startsWith("image")
+  );
 
   for (const metadata of cachedMediaMetadata) {
     if (idsInIndex.has(metadata.src)) {
@@ -83,7 +85,7 @@ async function syncContentIndex(registration) {
             sizes: "192x192",
             // If the cached media item is an image, use it as the icon.
             // Otherwise, use a generic video or audio icon.
-            src: category === "image" ? metadata.src : iconSrcs[category],
+            src: category === "image" ? metadata.src : "",
             type: category === "image" ? metadata.contentType : "image/png",
           },
         ],
