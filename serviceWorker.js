@@ -1,5 +1,5 @@
-const staticDevCoffee = "media";
-const broadcastChannel =
+const cacheName = "media";
+/* const broadcastChannel =
   "BroadcastChannel" in self ? new BroadcastChannel("shareMessages") : null;
 const assets = [
   "/",
@@ -14,18 +14,19 @@ const assets = [
   "/images/coffee6.jpg",
   "/images/coffee7.jpg",
   "/images/coffee8.jpg",
-  "/images/coffee9.jpg", */
+  "/images/coffee9.jpg",
 ];
 
 self.addEventListener("install", (installEvent) => {
   installEvent.waitUntil(
-    caches.open(staticDevCoffee).then((cache) => {
+    caches.open(cacheName).then((cache) => {
       cache.addAll(assets);
     })
   );
-});
+}); */
 
 self.addEventListener("fetch", (fetchEvent) => {
+  console.log({fetchEvent});
   const urlPrefix = "/_media/";
   const url = new URL(fetchEvent.request.url);
   // If this is an incoming POST request for the
@@ -71,6 +72,23 @@ self.addEventListener("fetch", (fetchEvent) => {
         return Response.redirect("/", 303);
       })()
     );
+  }else if (fetchEvent.request.destination === 'image') {
+      // Open the cache
+      fetchEvent.respondWith(caches.open(cacheName).then((cache) => {
+        // Respond with the image from the cache or from the network
+        return cache.match(fetchEvent.request).then((cachedResponse) => {
+          return cachedResponse || fetch(fetchEvent.request.url).then((fetchedResponse) => {
+            // Add the network response to the cache for future visits.
+            // Note: we need to make a copy of the response to save it in
+            // the cache and use the original as the request response.
+            cache.put(fetchEvent.request, fetchedResponse.clone());
+  
+            // Return the network response
+            return fetchedResponse;
+          });
+        });
+      }));
+    }
   }
   /*  fetchEvent.respondWith(
     caches.match(fetchEvent.request).then((res) => {
