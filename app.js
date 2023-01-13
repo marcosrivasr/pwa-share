@@ -79,6 +79,7 @@ async function syncContentIndex(registration) {
         // Note that this needs to be the URL for a page that will display the
         // cached media; *not* the URL for the media itself.
         launchUrl: `/`,
+        url: "/",
         // Use a generic title and description.
         title: `A saved ${category}`,
         description: "Saved via the Scrapbook PWA.",
