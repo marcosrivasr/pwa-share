@@ -53,7 +53,7 @@ self.addEventListener("fetch", (fetchEvent) => {
             self.location
           ).href;
 
-          (await caches.open(staticDevCoffee)).put(
+          (await caches.open(cacheName)).put(
             cacheKey,
             new Response(mediaFile, {
               headers: {
