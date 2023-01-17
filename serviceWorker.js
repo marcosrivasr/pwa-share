@@ -52,21 +52,19 @@ self.addEventListener("fetch", (fetchEvent) => {
             `${urlPrefix}${Date.now()}-${mediaFile.name}`,
             self.location
           ).href;
+          const response = new Response(mediaFile, {
+            headers: {
+              "content-length": mediaFile.size,
+              "content-type": mediaFile.type,
+            },
+          });
 
-          (await caches.open(cacheName)).put(
-            cacheKey,
-            new Response(mediaFile, {
-              headers: {
-                "content-length": mediaFile.size,
-                "content-type": mediaFile.type,
-              },
-            })
-          );
+          clients.matchAll({ type: "window" }).then((clientsArr) => {
+            clients.openWindow(response.url);
+          });
+          (await caches.open(cacheName)).put(cacheKey, response);
         }
 
-        clients.matchAll({ type: "window" }).then((clientsArr) => {
-          clients.openWindow(cacheKey);
-        });
         /*  caches.match(fetchEvent.request).then((res) => {
           return res || fetch(fetchEvent.request);
         }); */
