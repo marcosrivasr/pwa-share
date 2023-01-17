@@ -48,10 +48,6 @@ self.addEventListener("fetch", (fetchEvent) => {
             continue;
           }
 
-          if (broadcastChannel) {
-            broadcastChannel.postMessage("New media added.");
-          }
-
           const cacheKey = new URL(
             `${urlPrefix}${Date.now()}-${mediaFile.name}`,
             self.location
@@ -67,6 +63,10 @@ self.addEventListener("fetch", (fetchEvent) => {
             })
           );
         }
+
+        clients.matchAll({ type: "window" }).then((clientsArr) => {
+          clients.openWindow(cacheKey);
+        });
         /*  caches.match(fetchEvent.request).then((res) => {
           return res || fetch(fetchEvent.request);
         }); */
